@@ -4,9 +4,6 @@ import React from "react";
 import { useNavigation } from "@react-navigation/native";
 
 export default function CategoryGridTile({ title, color, onPress }) {
-
-
-
     return (
         <View style={styles.gridItem}>
             <Pressable
@@ -53,7 +50,7 @@ const styles = StyleSheet.create({
     innerContainer: {
         flex: 1,
         padding: 16,
-		  borderRadius: 8,
+        borderRadius: 8,
         justifyContent: "center",
         alignItems: "center",
     },

@@ -1,35 +1,49 @@
 import { StyleSheet, Text, View, FlatList } from "react-native";
 
-import React from "react";
+import React, { useLayoutEffect } from "react";
 
-import { MEALS } from "../data/dummy_data";
+import { MEALS, CATEGORIES } from "../data/dummy_data";
 
 import MealItem from "../components/MealItem";
 
-export default function MealsOverviewScreen({ route }) {
+export default function MealsOverviewScreen({ route, navigation }) {
     const catId = route.params.categoryId;
 
     const displayedMeals = MEALS.filter((mealItem) => {
         return mealItem.categoryIds.indexOf(catId) >= 0;
     });
 
-    const renderMealItem = (itemData) => {
+    useLayoutEffect(() => {
+        const categoryTitle = CATEGORIES.find(
+            (category) => category.id === catId
+        ).title;
 
-		const item = itemData.item
-		
-		const mealItemProps = {
-			title : item.title,
-			imageUrl : item.imageUrl,
-			affordability : item.affordability,
-			complexity : item.complexity,
-			duration : item.duration
-		}
+        navigation.setOptions({
+            title: categoryTitle,
+        });
+    }, [catId, navigation]);
+
+    const pressHandler = () => {
+        navigation.navigate("DetailMealScreen", {
+            categoryId: itemData.item.id,
+        })
+    }
+
+    const renderMealItem = (itemData) => {
+        const item = itemData.item;
+
+        const mealItemProps = {
+            id : item.id,
+            title: item.title,
+            imageUrl: item.imageUrl,
+            affordability: item.affordability,
+            complexity: item.complexity,
+            duration: item.duration,
+        };
 
         return (
             <View>
-                <MealItem
-                    {...mealItemProps}
-                />
+                <MealItem {...mealItemProps} onPress={pressHandler} />
             </View>
         );
     };
